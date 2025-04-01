@@ -3,32 +3,82 @@ describe('tax categories', () => {
     cy.visit('/admin');
     cy.get('[id="_username"]').type('sylius');
     cy.get('[id="_password"]').type('sylius');
-    cy.get('.primary').click();
+    cy.get('button.btn').click({force: true});
   });
   // Remove .only and implement others test cases!
-  it.only('create a new tax category', () => {
+  it('create a new tax category', () => {
     // Click in tax categories in side menu
     cy.clickInFirst('a[href="/admin/tax-categories/"]');
     // Click on create button
-    cy.get('*[class^="ui labeled icon button  primary "]').click();
+    cy.get('.btn-list > .btn').click({force: true});
     // Type category code
-    cy.get('[id="sylius_tax_category_code"]').type('44');
+    cy.get('#sylius_admin_tax_category_code').type('44');
     // Type category name
-    cy.get('[id="sylius_tax_category_name"]').type('44');
+    cy.get('#sylius_admin_tax_category_name').type('44');
     // Type category description
-    cy.get('[id="sylius_tax_category_description"]').type('4444');
+    cy.get('#sylius_admin_tax_category_description').type('4444');
 
     // Click on create button
-    cy.get('*[class^="ui labeled icon primary button"]').scrollIntoView().click();
+    cy.get('.btn-primary').scrollIntoView().click({force:true});
     // Assert that tax category has been created.
     cy.get('body').should('contain', 'Tax category has been successfully created.');
   });
-  it('test case 2', () => {
-    // Implement your test case 2 code here
-  });
-  it('test case 3', () => {
-    // Implement your test case 3 code here
+
+  it('create a tax category with same name and error occurs', () => {
+    // Click in tax categories in side menu
+    cy.clickInFirst('a[href="/admin/tax-categories/"]');
+    // Click on create button
+    cy.get('.btn-list > .btn').click({force: true});
+    // Type category code
+    cy.get('#sylius_admin_tax_category_code').type('44');
+    // Type category name
+    cy.get('#sylius_admin_tax_category_name').type('44');
+    // Type category description
+    cy.get('#sylius_admin_tax_category_description').type('4444');
+    cy.get('.btn-primary').scrollIntoView().click({force:true});
+
+    cy.contains('This form contains errors.')
   });
 
-  // Implement the remaining test cases in a similar manner
+  it('create a new tax category with a blank code', () => {
+    // Click in tax categories in side menu
+    cy.clickInFirst('a[href="/admin/tax-categories/"]');
+    // Click on create button
+    cy.get('.btn-list > .btn').click({force: true});
+    // Type category name
+    cy.get('#sylius_admin_tax_category_name').type('44');
+    // Type category description
+    cy.get('#sylius_admin_tax_category_description').type('4444');
+    cy.get('.btn-primary').scrollIntoView().click({force:true});
+
+    cy.get('.invalid-feedback').should('exist').contains('Please enter tax category code.').wait(200000)
+  });
+
+  it('create a new tax category with a blank name', () => {
+    // Click in tax categories in side menu
+    cy.clickInFirst('a[href="/admin/tax-categories/"]');
+    // Click on create button
+    cy.get('.btn-list > .btn').click({force: true});
+    // Type category code
+    cy.get('#sylius_admin_tax_category_code').type('45');
+    // Type category description
+    cy.get('#sylius_admin_tax_category_description').type('4444');
+    cy.get('.btn-primary').scrollIntoView().click({force:true});
+
+    cy.get('.invalid-feedback').should('exist').contains('Please enter tax category name.').wait(200000)
+  });
+
+  it.only('create a new tax category with a blank description', () => {
+    // Click in tax categories in side menu
+    cy.clickInFirst('a[href="/admin/tax-categories/"]');
+    // Click on create button
+    cy.get('.btn-list > .btn').click({force: true});
+    // Type category code
+    cy.get('#sylius_admin_tax_category_code').type('45');
+    // Type category name
+    cy.get('#sylius_admin_tax_category_name').type('44');  
+    cy.get('.btn-primary').scrollIntoView().click({force:true});
+
+    cy.get('.invalid-feedback').should('exist').contains('Please enter tax category name.').wait(200000)
+  });
 });

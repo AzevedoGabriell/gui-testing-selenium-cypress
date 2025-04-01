@@ -6,5 +6,5 @@ Cypress.Commands.add('login', (username, password) => {
 });
 
 Cypress.Commands.add('clickInFirst', (element) => {
-  cy.get(element).first().scrollIntoView().click();
+  cy.get(element).first().scrollIntoView().click({force:true});
 });
