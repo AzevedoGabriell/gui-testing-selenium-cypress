@@ -82,7 +82,7 @@ describe('tax categories', () => {
     cy.get('.invalid-feedback').should('exist').contains('Please enter tax category name.');
   });
 
-  it.only('edit tax category', () => {
+  it('edit tax category', () => {
     // Click in tax categories in side menu
     cy.clickInFirst('a[href="/admin/tax-categories/"]');
 
@@ -91,5 +91,32 @@ describe('tax categories', () => {
     cy.get('#sylius_admin_tax_category_description').type('4444');
     cy.get('.btn-primary').click();
     cy.contains('Tax category has been successfully updated.')
+  });
+
+  it('delete tax category', () => {
+    // Click in tax categories in side menu
+    cy.clickInFirst('a[href="/admin/tax-categories/"]');
+
+    cy.get('.accordion-button').should('exist');
+    cy.get('[data-test-modal="delete"]').eq(0).click();
+    cy.get('#delete-modal-5 > .modal-dialog > .modal-content > .modal-footer > form > .btn-danger').click();
+    cy.contains('Tax category has been successfully deleted.');
+  });
+
+  it('check text count view tax category', () => {
+    // Click in tax categories in side menu
+    cy.clickInFirst('a[href="/admin/tax-categories/"]');
+
+    cy.get('.accordion-button').should('exist');
+    cy.get('.card-footer > .text-muted').contains('Showing 1 to 2 of 2 entries').wait(30000);
+  });
+
+  it.only('check pagination tax category', () => {
+    // Click in tax categories in side menu
+    cy.clickInFirst('a[href="/admin/tax-categories/"]');
+
+    cy.get('.accordion-button').should('exist');
+    cy.get('.pagination > :nth-child(1)').contains('Previous');
+    cy.get('.pagination > :nth-child(3)').contains('Next');
   });
 });
