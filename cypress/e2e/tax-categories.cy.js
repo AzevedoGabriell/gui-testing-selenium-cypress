@@ -40,7 +40,7 @@ describe('tax categories', () => {
     cy.contains('This form contains errors.')
   });
 
-  it('create a new tax category with a blank code', () => {
+  it('create a new tax category with a blank code error occurs', () => {
     // Click in tax categories in side menu
     cy.clickInFirst('a[href="/admin/tax-categories/"]');
     // Click on create button
@@ -51,10 +51,10 @@ describe('tax categories', () => {
     cy.get('#sylius_admin_tax_category_description').type('4444');
     cy.get('.btn-primary').scrollIntoView().click({force:true});
 
-    cy.get('.invalid-feedback').should('exist').contains('Please enter tax category code.').wait(200000)
+    cy.get('.invalid-feedback').should('exist').contains('Please enter tax category code.');
   });
 
-  it('create a new tax category with a blank name', () => {
+  it('create a new tax category with a blank name and error occurs', () => {
     // Click in tax categories in side menu
     cy.clickInFirst('a[href="/admin/tax-categories/"]');
     // Click on create button
@@ -65,10 +65,10 @@ describe('tax categories', () => {
     cy.get('#sylius_admin_tax_category_description').type('4444');
     cy.get('.btn-primary').scrollIntoView().click({force:true});
 
-    cy.get('.invalid-feedback').should('exist').contains('Please enter tax category name.').wait(200000)
+    cy.get('.invalid-feedback').should('exist').contains('Please enter tax category name.');
   });
 
-  it.only('create a new tax category with a blank description', () => {
+  it('create a new tax category with a blank description', () => {
     // Click in tax categories in side menu
     cy.clickInFirst('a[href="/admin/tax-categories/"]');
     // Click on create button
@@ -79,6 +79,17 @@ describe('tax categories', () => {
     cy.get('#sylius_admin_tax_category_name').type('44');  
     cy.get('.btn-primary').scrollIntoView().click({force:true});
 
-    cy.get('.invalid-feedback').should('exist').contains('Please enter tax category name.').wait(200000)
+    cy.get('.invalid-feedback').should('exist').contains('Please enter tax category name.');
+  });
+
+  it.only('edit tax category', () => {
+    // Click in tax categories in side menu
+    cy.clickInFirst('a[href="/admin/tax-categories/"]');
+
+    cy.get('.accordion-button').should('exist');
+    cy.get('[data-test-resource-id="3"] > [data-test-actions=""] > .d-flex > a.btn').click();
+    cy.get('#sylius_admin_tax_category_description').type('4444');
+    cy.get('.btn-primary').click();
+    cy.contains('Tax category has been successfully updated.')
   });
 });
