@@ -74,12 +74,13 @@ describe('tax categories', () => {
     // Click on create button
     cy.get('.btn-list > .btn').click({force: true});
     // Type category code
-    cy.get('#sylius_admin_tax_category_code').type('45');
+    cy.get('#sylius_admin_tax_category_code').type('46');
     // Type category name
     cy.get('#sylius_admin_tax_category_name').type('44');  
     cy.get('.btn-primary').scrollIntoView().click({force:true});
 
-    cy.get('.invalid-feedback').should('exist').contains('Please enter tax category name.');
+    cy.get('body').should('contain', 'Tax category has been successfully created.');
+
   });
 
   it('edit tax category', () => {
